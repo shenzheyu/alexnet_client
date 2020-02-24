@@ -136,3 +136,6 @@ models/*
 
 # IDE
 .idea/*
+
+# weights
+bvlc_alexnet.npy
