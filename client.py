@@ -28,7 +28,7 @@ def parse_result(result_future):
     global _counter
     global _start
 
-    probs = result_future.outputs['probability']
+    probs = result_future.outputs['softmax']
     probs = tf.make_ndarray(probs)
 
     print("result no", _counter)
@@ -40,11 +40,10 @@ def do_inference(server, batch_size, img_path):
     stub = prediction_service_pb2_grpc.PredictionServiceStub(channel)
     request = predict_pb2.PredictRequest()
     request.model_spec.name = 'alexnet'
-    request.model_spec.signature_name = 'serving_default'
+    request.model_spec.signature_name = 'inputs'
 
     # Going to read the image
     image = cv2.imread(img_path)
-    image = cv2.resize(image, (224, 224), interpolation=cv2.INTER_CUBIC)
     image = image.astype('f')
     print("in image shape", image.shape)
 
